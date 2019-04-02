@@ -60,6 +60,6 @@ public class GenericResource {
     @POST
      @Produces(MediaType.TEXT_PLAIN)
     public String login(String string) {
-    return "inf fra rest hehehe: "+string;
+    return "inf fra rest hehehe FORHELF: "+string;
   }
 }
