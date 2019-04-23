@@ -104,4 +104,27 @@ public class GenericResource {
        
        
         
-}}
+}
+ @Path("tilbudMedGiventPostnummer")
+  @POST
+  @Produces(MediaType.APPLICATION_JSON)
+  public String getTilbud(int postnummer) throws RemoteException, NotBoundException, MalformedURLException {
+      System.out.println("Kommet ind i getTilbud");
+        String svaret = ""; 
+         
+           KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+            this.gw = giv;
+            System.out.println("Oprettet RMI");
+      
+            svaret = this.gw.getTilbudFraPostnummer(postnummer);
+            System.out.println(svaret);                                                                     
+            JsonElement je = jp.parse(svaret);                                                              
+            String færdig = svaret;
+            System.out.println(svaret);
+      
+      
+        return svaret;  
+    
+  }
+
+}
