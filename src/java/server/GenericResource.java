@@ -5,10 +5,16 @@
  */
 package server;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import javax.json.JsonArray;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -29,7 +35,10 @@ public class GenericResource {
 
     @Context
     private UriInfo context;
-
+    
+     private KøreskolePriserInterface gw;
+    Gson gson = new Gson();           
+    JsonParser jp = new JsonParser(); 
     /**
      * Creates a new instance of GenericResource
      */
@@ -56,10 +65,43 @@ public class GenericResource {
     public void putXml(String content) {
     }
     
-    @Path("login")
-    @POST
+    @Path("loginnn")
+    @GET
      @Produces(MediaType.TEXT_PLAIN)
     public String login(String string) {
+        System.out.println("KOMMET IND!!!!!!");
+        System.out.println("Den modtagne string er: " +string);
     return "inf fra rest hehehe FORHELF: "+string;
   }
-}
+    
+     @Path("alleTilbud")
+    @GET
+     @Produces(MediaType.TEXT_PLAIN)
+    public String hentAlleTilbud() throws RemoteException, NotBoundException, MalformedURLException {
+        System.out.println("Kommet ind i alleTilbud");
+        String str = ""; 
+         
+            System.out.println("Kommet ind i try-blok");
+           // GalgeInterf giv  = (GalgeInterf) Naming.lookup("rmi://localhost:1235/kontotjeneste");
+           KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+            this.gw = giv;
+            System.out.println("Oprettet RMI");
+            
+           ArrayList<Tilbud> til;                                                                       
+            ArrayList<TilbudTilBrugere> tilb;                                                            
+                                                                                             
+                                                                            
+        str = this.gw.getAlleTilbud();                                                                
+        System.out.println(str);                                                                     
+        JsonElement je = jp.parse(str);                                                              
+        //com.google.gson.JsonArray ja = je.getAsJsonArray(); 
+        String færdig = str;
+         System.out.println(færdig);
+        return færdig;
+                                                                                    
+                                                                                     
+            
+       
+       
+        
+}}
