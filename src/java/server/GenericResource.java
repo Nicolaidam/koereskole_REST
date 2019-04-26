@@ -65,15 +65,6 @@ public class GenericResource {
     public void putXml(String content) {
     }
     
-    @Path("loginnn")
-    @GET
-     @Produces(MediaType.TEXT_PLAIN)
-    public String login(String string) {
-        System.out.println("KOMMET IND!!!!!!");
-        System.out.println("Den modtagne string er: " +string);
-    return "inf fra rest hehehe FORHELF: "+string;
-  }
-    
      @Path("alleTilbud")
     @GET
      @Produces(MediaType.TEXT_PLAIN)
@@ -98,11 +89,6 @@ public class GenericResource {
         String færdig = str;
          System.out.println(færdig);
         return færdig;
-                                                                                    
-                                                                                     
-            
-       
-       
         
 }
  @Path("tilbudMedGiventPostnummer")
@@ -121,10 +107,29 @@ public class GenericResource {
             JsonElement je = jp.parse(svaret);                                                              
             String færdig = svaret;
             System.out.println(svaret);
-      
-      
-        return svaret;  
-    
+            
+        return svaret;
+  }
+  
+  /*
+  Tager i mod én string med brugernavn+" "+kodeord
+  */
+  @Path("login")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+   public boolean login(String string) throws RemoteException, NotBoundException, MalformedURLException {
+     
+        Boolean svaret = false;
+        
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+         this.gw = giv;
+         String[] result = string.split(" "); 
+         String bn = result[0];
+         String ko = result[1];
+                                                                                               
+        svaret = this.gw.logInd(bn, ko);
+        
+        return svaret;
   }
 
 }
