@@ -64,8 +64,170 @@ public class GenericResource {
     @Consumes(MediaType.APPLICATION_XML)
     public void putXml(String content) {
     }
+
+    //KØRESKOLER
     
-     @Path("alleTilbud")
+  /*
+  Tager i mod én string med brugernavn+" "+kodeord
+  */
+  @Path("login")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+   public boolean login(String string) throws RemoteException, NotBoundException, MalformedURLException {
+     
+        Boolean svaret = false;
+        
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+         this.gw = giv;
+         String[] result = string.split(" "); 
+         String bn = result[0];
+         String ko = result[1];
+                                                                                               
+        svaret = this.gw.logInd(bn, ko);
+        
+        return svaret;
+  }
+   /*
+  Tager i mod én string med brugernavn+" "+kodeord+" "+jsonTilbud
+  */
+  @Path("opretTilbud")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+   public boolean opretTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
+     
+        Boolean svaret = false;
+        
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+         this.gw = giv;
+         String[] result = string.split(" "); 
+         String bn = result[0];
+         String ko = result[1];
+         String jsonTilbud = result[2];
+         
+         Gson g = new Gson();
+         Tilbud tilbud = g.fromJson(jsonTilbud, Tilbud.class);
+
+         svaret = this.gw.opretTilbud(bn, ko, tilbud);
+         
+        return svaret;
+  }
+    /*
+  Tager i mod én string med brugernavn+" "+kodeord+" "+tilbudID+" "+jsonTilbud
+  */
+  @Path("aendreTilbud")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+   public boolean ændreTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
+       
+        Boolean svaret = false;
+        
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+         this.gw = giv;
+         String[] result = string.split(" "); 
+         String bn = result[0];
+         String ko = result[1];
+         String id = result[2];
+         String jsonTilbud = result[3];
+         
+         int idInt = Integer.parseInt(id);
+         
+         Gson g = new Gson();
+         Tilbud tilbud = g.fromJson(jsonTilbud, Tilbud.class);
+
+         svaret = this.gw.aendreTilbud(bn, ko, idInt, tilbud);
+         
+        return svaret;
+  }
+     /*
+  Tager i mod én string med brugernavn+" "+kodeord
+  */
+  @Path("getTilbudKøreskole")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+   public String getTilbudKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
+       
+        String svaret;
+        
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+         this.gw = giv;
+         String[] result = string.split(" "); 
+         String bn = result[0];
+         String ko = result[1];
+
+         svaret = this.gw.getTilbudKøreskole(bn, ko);
+         
+        return svaret;
+  }
+   
+      /*
+  Tager i mod én string med brugernavn+" "+kodeord
+  */
+  @Path("getKøreskole")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+   public String getKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
+       
+        String svaret;
+        
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+         this.gw = giv;
+         String[] result = string.split(" "); 
+         String bn = result[0];
+         String ko = result[1];
+
+         svaret = this.gw.getKøreskole(bn, ko);
+         
+        return svaret;
+  }
+   
+       /*
+  Tager i mod én string med brugernavn+" "+kodeord
+  */
+  @Path("opretKøreskole")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+   public boolean opretKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
+       
+        boolean svaret;
+        
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+         this.gw = giv;
+         String[] result = string.split(" "); 
+         String bn = result[0];
+         String ko = result[1];
+         String jsonKøreskole = result[2];
+         
+         Gson g = new Gson();
+         Køreskole køreskole = g.fromJson(jsonKøreskole, Køreskole.class);
+
+         svaret = this.gw.opretKøreskole(bn, ko, køreskole);
+         
+        return svaret;
+  }
+   
+   //KØRESKOLE ELEVER
+   
+   @Path("tilbudMedGiventPostnummer")
+  @POST
+  @Produces(MediaType.APPLICATION_JSON)
+  public String getTilbud(int postnummer) throws RemoteException, NotBoundException, MalformedURLException {
+      System.out.println("Kommet ind i getTilbud");
+        String svaret = ""; 
+         
+           KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+            this.gw = giv;
+            System.out.println("Oprettet RMI");
+      
+            svaret = this.gw.getTilbudFraPostnummer(postnummer);
+            System.out.println(svaret);                                                                     
+            JsonElement je = jp.parse(svaret);                                                              
+            String færdig = svaret;
+            System.out.println(svaret);
+            
+        return svaret;
+  }
+  
+   @Path("getAlleTilbud")
     @GET
      @Produces(MediaType.TEXT_PLAIN)
     public String hentAlleTilbud() throws RemoteException, NotBoundException, MalformedURLException {
@@ -89,47 +251,27 @@ public class GenericResource {
         String færdig = str;
          System.out.println(færdig);
         return færdig;
-        
 }
- @Path("tilbudMedGiventPostnummer")
-  @POST
-  @Produces(MediaType.APPLICATION_JSON)
-  public String getTilbud(int postnummer) throws RemoteException, NotBoundException, MalformedURLException {
-      System.out.println("Kommet ind i getTilbud");
-        String svaret = ""; 
-         
-           KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
-            this.gw = giv;
-            System.out.println("Oprettet RMI");
-      
-            svaret = this.gw.getTilbudFraPostnummer(postnummer);
-            System.out.println(svaret);                                                                     
-            JsonElement je = jp.parse(svaret);                                                              
-            String færdig = svaret;
-            System.out.println(svaret);
-            
-        return svaret;
-  }
-  
-  /*
-  Tager i mod én string med brugernavn+" "+kodeord
-  */
-  @Path("login")
-  @POST
-  @Produces(MediaType.TEXT_PLAIN)
-   public boolean login(String string) throws RemoteException, NotBoundException, MalformedURLException {
-     
-        Boolean svaret = false;
-        
+    @Path("getTilbudMellemPrisFraPostnummer")
+    @GET
+     @Produces(MediaType.TEXT_PLAIN)
+    public String getTilbudMellemPrisFraPostnummer(String string) throws RemoteException, NotBoundException, MalformedURLException {
         KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+        String svaret;
          this.gw = giv;
          String[] result = string.split(" "); 
-         String bn = result[0];
-         String ko = result[1];
-                                                                                               
-        svaret = this.gw.logInd(bn, ko);
-        
+         String post = result[0];
+         String min = result[1];
+         String max = result[2]; 
+         
+         int postInt = Integer.parseInt(post);
+         int minInt = Integer.parseInt(min);
+         int maxInt = Integer.parseInt(max);
+                                    
+        svaret = gw.getTilbudMellemPrisFraPostnummer(postInt, minInt, maxInt);
         return svaret;
-  }
+}
+    
+   
 
 }
