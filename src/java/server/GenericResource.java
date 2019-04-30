@@ -32,6 +32,8 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("generic")
 public class GenericResource {
+    
+    String url = "rmi://dist.saluton.dk:5478/koereskolepriser";
 
     @Context
     private UriInfo context;
@@ -77,7 +79,7 @@ public class GenericResource {
      
         Boolean svaret = false;
         
-        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
          this.gw = giv;
          String[] result = string.split(" "); 
          String bn = result[0];
@@ -97,20 +99,28 @@ public class GenericResource {
      
         Boolean svaret = false;
         
-        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
          this.gw = giv;
-         
-        // String jsonTilbud = string[2];
+       
          JsonParser jp = new JsonParser();
          JsonElement js = jp.parse(string);
          
          Gson g = new Gson();
+         
+         
          String[] arr = g.fromJson(js, String[].class);
-        // Tilbud tilbud = g.fromJson(js, Tilbud.class);
+        
            System.out.println(arr[0]);
            System.out.println(arr[1]);
            System.out.println(arr[2]);
-        // svaret = this.gw.opretTilbud(string[0], string[1], tilbud);
+           
+            Gson g2 = new Gson();
+            JsonElement js2 = jp.parse(arr[2]);
+            Tilbud tss = g2.fromJson(js2, Tilbud.class);
+           
+           //System.out.println(tss.tilbud
+           //.beskrivelse);
+          svaret = this.gw.opretTilbud(arr[0], arr[1], tss);
          
         return svaret;
   }
@@ -124,7 +134,7 @@ public class GenericResource {
        
         Boolean svaret = false;
         
-        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
          this.gw = giv;
          String[] result = string.split(" "); 
          String bn = result[0];
@@ -151,7 +161,7 @@ public class GenericResource {
        
         String svaret;
         
-        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
          this.gw = giv;
          String[] result = string.split(" "); 
          String bn = result[0];
@@ -172,7 +182,7 @@ public class GenericResource {
        
         String svaret;
         
-        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
          this.gw = giv;
          String[] result = string.split(" "); 
          String bn = result[0];
@@ -193,7 +203,7 @@ public class GenericResource {
        
         boolean svaret;
         
-        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
          this.gw = giv;
          String[] result = string.split(" "); 
          String bn = result[0];
@@ -221,7 +231,7 @@ public class GenericResource {
       System.out.println("Kommet ind i getTilbud");
         String svaret = ""; 
          
-           KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+           KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
             this.gw = giv;
             System.out.println("Oprettet RMI");
       
@@ -243,7 +253,7 @@ public class GenericResource {
          
             System.out.println("Kommet ind i try-blok");
            // GalgeInterf giv  = (GalgeInterf) Naming.lookup("rmi://localhost:1235/kontotjeneste");
-           KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+           KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
             this.gw = giv;
             System.out.println("Oprettet RMI");
             
@@ -263,7 +273,7 @@ public class GenericResource {
     @GET
      @Produces(MediaType.TEXT_PLAIN)
     public String getTilbudMellemPrisFraPostnummer(String string) throws RemoteException, NotBoundException, MalformedURLException {
-        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
         String svaret;
          this.gw = giv;
          String[] result = string.split(" "); 
