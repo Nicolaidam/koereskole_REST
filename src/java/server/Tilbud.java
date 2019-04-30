@@ -6,7 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class Tilbud implements Serializable {
 	public Tilbud() throws Exception {
-		tilgængeligeDage = new TilgængeligeDage();
+		tilgængeligeDage = new TilgangeligeDage();
 	}
 	
 	static final long serialVersionUID = 1234567890;
@@ -19,7 +19,7 @@ public class Tilbud implements Serializable {
 	String bilstørrelse;
 	String køn;
 	String beskrivelse;
-	TilgængeligeDage tilgængeligeDage;
+	TilgangeligeDage tilgængeligeDage;
 	int id;
 	
 	@Override
