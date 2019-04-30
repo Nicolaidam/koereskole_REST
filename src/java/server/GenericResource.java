@@ -154,7 +154,7 @@ public class GenericResource {
      /*
   Tager i mod én string med brugernavn+" "+kodeord
   */
-  @Path("getTilbudKøreskole")
+  @Path("getTilbudKoreskole")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
    public String getTilbudKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
@@ -166,8 +166,14 @@ public class GenericResource {
          String[] result = string.split(" "); 
          String bn = result[0];
          String ko = result[1];
+         
+         System.out.println(bn);
+         System.out.println(ko);
+         
 
-         svaret = this.gw.getTilbudKøreskole(bn, ko);
+         svaret = "svaret"+this.gw.getTilbudKøreskole(bn, ko);
+         
+         System.out.println(svaret);
          
         return svaret;
   }
