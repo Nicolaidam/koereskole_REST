@@ -20,8 +20,8 @@ public class TilbudTilBrugere implements Serializable{
         s+="\nkørekort: type: "+ tilbud.korekort_type;
         s+="\nlynkursus: "+tilbud.lynkursus;
         s+="\nbilmærke: "+tilbud.bilmarke;
-        s+="\nbilstørrelse: "+tilbud.bilstørrelse;
-        s+="\nkøn: "+tilbud.køn;
+        s+="\nbilstørrelse: "+tilbud.bilstorrelse;
+        s+="\nkøn: "+tilbud.kon;
         s+="\nbeskrivelse: "+tilbud.beskrivelse;
 
         return s;

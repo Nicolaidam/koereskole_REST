@@ -33,7 +33,8 @@ import javax.ws.rs.core.MediaType;
 @Path("generic")
 public class GenericResource {
     
-    String url = "rmi://dist.saluton.dk:5478/koereskolepriser";
+    //String url = "rmi://dist.saluton.dk:5478/koereskolepriser";
+    String url = "rmi://130.225.170.204:5478/koereskolepriser";
 
     @Context
     private UriInfo context;
@@ -97,6 +98,7 @@ public class GenericResource {
   @Produces(MediaType.TEXT_PLAIN)
    public boolean opretTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
      
+       System.out.println("OMG OMG OMG"+string);
         Boolean svaret = false;
         
         KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
@@ -118,9 +120,7 @@ public class GenericResource {
             JsonElement js2 = jp.parse(arr[2]);
             Tilbud tss = g2.fromJson(js2, Tilbud.class);
            
-           //System.out.println(tss.tilbud
-           //.beskrivelse);
-          svaret = this.gw.opretTilbud(arr[0], arr[1], tss);
+           svaret = this.gw.opretTilbud(arr[0], arr[1], tss);
          
         return svaret;
   }
