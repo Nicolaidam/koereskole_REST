@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class TilbudTilBrugere implements Serializable{
 
     public Tilbud tilbud;
-    public Køreskole køreskole;
+    public Koreskole køreskole;
     
     public TilbudTilBrugere() throws Exception {
     	tilbud = new Tilbud();
-    	køreskole = new Køreskole();
+    	køreskole = new Koreskole();
 	}
 
     @Override
