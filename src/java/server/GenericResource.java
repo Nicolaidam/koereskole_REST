@@ -213,7 +213,7 @@ public class GenericResource {
          System.out.print(result[2]);
          
          Gson g = new Gson();
-         Køreskole køreskole = g.fromJson(jsonKøreskole, Køreskole.class);
+         Koreskole køreskole = g.fromJson(jsonKøreskole, Koreskole.class);
          
          
 
