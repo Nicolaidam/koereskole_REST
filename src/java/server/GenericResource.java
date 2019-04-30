@@ -93,21 +93,21 @@ public class GenericResource {
   @Path("opretTilbud")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
-   public boolean opretTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
+   public boolean opretTilbud(String[] string) throws RemoteException, NotBoundException, MalformedURLException {
      
         Boolean svaret = false;
         
         KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup("rmi://130.225.170.204:5478/koereskolepriser");
          this.gw = giv;
-         String[] result = string.split(" "); 
-         String bn = result[0];
-         String ko = result[1];
-         String jsonTilbud = result[2];
+         
+         String jsonTilbud = string[2];
+         JsonParser jp = new JsonParser();
+         JsonElement js = jp.parse(jsonTilbud);
          
          Gson g = new Gson();
-         Tilbud tilbud = g.fromJson(jsonTilbud, Tilbud.class);
+         Tilbud tilbud = g.fromJson(js, Tilbud.class);
 
-         svaret = this.gw.opretTilbud(bn, ko, tilbud);
+         svaret = this.gw.opretTilbud(string[0], string[1], tilbud);
          
         return svaret;
   }
@@ -197,8 +197,12 @@ public class GenericResource {
          String ko = result[1];
          String jsonKøreskole = result[2];
          
+         System.out.print(result[2]);
+         
          Gson g = new Gson();
          Køreskole køreskole = g.fromJson(jsonKøreskole, Køreskole.class);
+         
+         
 
          svaret = this.gw.opretKøreskole(bn, ko, køreskole);
          
