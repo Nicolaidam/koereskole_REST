@@ -132,20 +132,28 @@ public class GenericResource {
   @Produces(MediaType.TEXT_PLAIN)
    public boolean ændreTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
        
+       System.out.println("OMG OMG OMG"+string);
         Boolean svaret = false;
         
         KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
          this.gw = giv;
-         String[] result = string.split(" "); 
-         String bn = result[0];
-         String ko = result[1];
-         String id = result[2];
-         String jsonTilbud = result[3];
-         
-         int idInt = Integer.parseInt(id);
+       
+         JsonParser jp = new JsonParser();
+         JsonElement js = jp.parse(string);
          
          Gson g = new Gson();
+         
+         String[] arr = g.fromJson(js, String[].class);
+         
+         String bn = arr[0];
+         String ko = arr[1];
+         String id = arr[2];
+         String jsonTilbud = arr[3];
+         
+         
          Tilbud tilbud = g.fromJson(jsonTilbud, Tilbud.class);
+         
+         int idInt = Integer.parseInt(id);
 
          svaret = this.gw.aendreTilbud(bn, ko, idInt, tilbud);
          
@@ -171,7 +179,7 @@ public class GenericResource {
          System.out.println(ko);
          
 
-         svaret = "svaret"+this.gw.getTilbudKøreskole(bn, ko);
+         svaret = this.gw.getTilbudKøreskole(bn, ko);
          
          System.out.println(svaret);
          
@@ -181,7 +189,7 @@ public class GenericResource {
       /*
   Tager i mod én string med brugernavn+" "+kodeord
   */
-  @Path("getKøreskole")
+  @Path("getKoreskole")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
    public String getKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
