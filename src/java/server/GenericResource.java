@@ -34,7 +34,7 @@ import javax.ws.rs.core.MediaType;
 public class GenericResource {
     
     //String url = "rmi://dist.saluton.dk:5478/koereskolepriser";
-    String url = "rmi://130.225.170.204:5478/koereskolepriser";
+    String url = "rmi://dist.saluton.dk:1235/koereskolepriser";
 
     @Context
     private UriInfo context;
