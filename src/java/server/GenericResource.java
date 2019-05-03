@@ -76,7 +76,7 @@ public class GenericResource {
   @Path("login")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
-   public boolean login(String string) throws RemoteException, NotBoundException, MalformedURLException {
+   public String login(String string) throws RemoteException, NotBoundException, MalformedURLException {
      
         Boolean svaret = false;
         
@@ -88,7 +88,14 @@ public class GenericResource {
                                                                                                
         svaret = this.gw.logInd(bn, ko);
         
-        return svaret;
+        String returnString = "0";
+        
+        if(svaret==true){
+            returnString = "1";
+        }
+
+        
+        return returnString;
   }
    /*
   Tager i mod én string med brugernavn+" "+kodeord+" "+jsonTilbud
