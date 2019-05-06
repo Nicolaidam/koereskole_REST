@@ -131,7 +131,42 @@ public class GenericResource {
          
         return svaret;
   }
-    /*
+ /*
+  Tager i mod én string med brugernavn+" "+kodeord+" "+tilbudID
+  */
+  @Path("sletTilbud")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+   public boolean sletTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
+     
+       System.out.println("MODTAGET STRING I sletTILBUD : "+string);
+        Boolean svaret = false;
+        
+        KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
+         this.gw = giv;
+       
+         JsonParser jp = new JsonParser();
+         JsonElement js = jp.parse(string);
+         
+         Gson g = new Gson();
+         System.out.println("STRENGEN VI MODTAGER ER: " + string);
+         
+         String[] arr = g.fromJson(js, String[].class);
+        
+           System.out.println(arr[0]);
+           System.out.println(arr[1]);
+           System.out.println(arr[2]);
+           
+           int[] tilbudID = new int[1];
+           tilbudID[0] = Integer.parseInt(arr[2]);
+           
+          svaret = this.gw.sletTilbud(arr[0], arr[1], tilbudID);
+         
+        return svaret;
+  }
+   
+   
+   /*
   Tager i mod én string med brugernavn+" "+kodeord+" "+tilbudID+" "+jsonTilbud
   */
   @Path("aendreTilbud")
