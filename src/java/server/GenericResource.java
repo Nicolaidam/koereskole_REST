@@ -32,9 +32,9 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("generic")
 public class GenericResource {
-    
-    //String url = "rmi://dist.saluton.dk:5478/koereskolepriser";
-    String url = "rmi://dist.saluton.dk:1235/koereskolepriser";
+    String url = "rmi://dist.saluton.dk:5500/koereskolepriser";
+    // String url = "rmi://dist.saluton.dk:5478/koereskolepriser";
+    // String url = "rmi://dist.saluton.dk:1235/koereskolepriser";
 
     @Context
     private UriInfo context;
@@ -115,7 +115,7 @@ public class GenericResource {
          JsonElement js = jp.parse(string);
          
          Gson g = new Gson();
-         
+         System.out.println("STRENGEN VI MODTAGER ER: " + string);
          
          String[] arr = g.fromJson(js, String[].class);
         
@@ -124,10 +124,10 @@ public class GenericResource {
            System.out.println(arr[2]);
            
             Gson g2 = new Gson();
-            JsonElement js2 = jp.parse(arr[2]);
+           JsonElement js2 = jp.parse(arr[2]);
             Tilbud tss = g2.fromJson(js2, Tilbud.class);
            
-           svaret = this.gw.opretTilbud(arr[0], arr[1], tss);
+          svaret = this.gw.opretTilbud(arr[0], arr[1], tss);
          
         return svaret;
   }
@@ -156,7 +156,10 @@ public class GenericResource {
          String ko = arr[1];
          String id = arr[2];
          String jsonTilbud = arr[3];
-         
+         System.out.println(bn);
+         System.out.println(ko);
+         System.out.println(id);
+         System.out.println(jsonTilbud);
          
          Tilbud tilbud = g.fromJson(jsonTilbud, Tilbud.class);
          
@@ -222,23 +225,27 @@ public class GenericResource {
   @Produces(MediaType.TEXT_PLAIN)
    public boolean opretKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
        
-        boolean svaret;
+         System.out.println("INDE I OPRETKS"+string);
+        Boolean svaret = false;
         
         KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
          this.gw = giv;
-         String[] result = string.split(" "); 
-         String bn = result[0];
-         String ko = result[1];
-         String jsonKøreskole = result[2];
-         
-         System.out.print(result[2]);
+       
+         JsonParser jp = new JsonParser();
+         JsonElement js = jp.parse(string);
          
          Gson g = new Gson();
-         Koreskole køreskole = g.fromJson(jsonKøreskole, Koreskole.class);
          
-         
-
-         svaret = this.gw.opretKøreskole(bn, ko, køreskole);
+         String[] arr = g.fromJson(js, String[].class);        
+           System.out.println(arr[0]);
+           System.out.println(arr[1]);
+           System.out.println(arr[2]);
+           
+            Gson g2 = new Gson();
+           JsonElement js2 = jp.parse(arr[2]);
+            Koreskole tss = g2.fromJson(js2, Koreskole.class);
+           System.out.println(tss.adresse);
+          // svaret = this.gw.opretKøreskole(arr[0], arr[1], tss);
          
         return svaret;
   }
@@ -268,7 +275,7 @@ public class GenericResource {
    @Path("getAlleTilbud")
     @GET
      @Produces(MediaType.TEXT_PLAIN)
-    public String hentAlleTilbud() throws RemoteException, NotBoundException, MalformedURLException {
+    public String hentAlleTilbud() throws RemoteException, NotBoundException, MalformedURLException, Exception {
         System.out.println("Kommet ind i alleTilbud");
         String str = ""; 
          
@@ -277,7 +284,31 @@ public class GenericResource {
            KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
             this.gw = giv;
             System.out.println("Oprettet RMI");
+           /* TilgangeligeDage tilg = new TilgangeligeDage();
+            tilg.tilgangelig_fredag = 1;
+            tilg.tilgangelig_lordag = 0;
+            tilg.tilgangelig_mandag = 1;
+            tilg.tilgangelig_onsdag = 0;
+            tilg.tilgangelig_sondag = 1;
+            tilg.tilgangelig_tirsdag = 0;
+            tilg.tilgangelig_torsdag = 1;
             
+            Tilbud tilbud = new Tilbud();
+            tilbud.beskrivelse = "";
+            tilbud.bilmarke = "Honda";
+            tilbud.bilstorrelse = "stor";
+            tilbud.kon = "mand";
+            tilbud.korekort_type = "A";
+            tilbud.lynkursus = 0;
+            tilbud.pris = 12000;
+            tilbud.tilgangeligeDage = tilg;
+            tilbud.koreskole_id = "s175132";
+            
+            
+            System.out.println("OPRET TILBUD-----" + this.gw.opretTilbud("s175132", "DS2019", tilbud));
+                   
+            */
+           System.out.println(this.gw.logInd("s175132", "DS2019"));
            ArrayList<Tilbud> til;                                                                       
             ArrayList<TilbudTilBrugere> tilb;                                                            
                                                                                              
