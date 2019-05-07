@@ -105,7 +105,7 @@ public class GenericResource {
   @Path("opretTilbud")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
-   public boolean opretTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
+   public String opretTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
      
        System.out.println("OMG OMG OMG"+string);
         Boolean svaret = false;
@@ -130,18 +130,23 @@ public class GenericResource {
             Tilbud tss = g2.fromJson(js2, Tilbud.class);
            
           svaret = this.gw.opretTilbud(arr[0], arr[1], tss);
+        String returnString = "0";
+        
+        if(svaret==true){
+            returnString = "1";
+        }
          
-        return svaret;
+        return returnString;
   }
  /*
   Tager i mod én string med brugernavn+" "+kodeord+" "+tilbudID
   */
-  @Path("sletTilbud/{id}")
+  @Path("sletTilbud/{id}/{brugernavn}/{password}")
   @DELETE
   @Produces(MediaType.TEXT_PLAIN)
-   public boolean sletTilbud(@PathParam("id") int accountId) throws RemoteException, NotBoundException, MalformedURLException {
+   public String sletTilbud(@PathParam("id") int Id, @PathParam("brugernavn") String navn, @PathParam("password") String kode) throws RemoteException, NotBoundException, MalformedURLException {
      
-       System.out.println("MODTAGET STRING I sletTILBUD : "+accountId);
+       System.out.println("MODTAGET STRING I sletTILBUD : "+Id + " --- " + navn + " --- " + kode);
         Boolean svaret = false;
         
         KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
@@ -151,20 +156,20 @@ public class GenericResource {
         // JsonElement js = jp.parse(string);
          
          Gson g = new Gson();
-         //System.out.println("STRENGEN VI MODTAGER ER: " + string);
-         
-        // String[] arr = g.fromJson(js, String[].class);
-        /*
-           System.out.println(arr[0]);
-           System.out.println(arr[1]);
-           System.out.println(arr[2]);
+        
            
            int[] tilbudID = new int[1];
-           tilbudID[0] = Integer.parseInt(arr[2]);
+           tilbudID[0] = Id;
            
-          svaret = this.gw.sletTilbud(arr[0], arr[1], tilbudID);
-         */
-        return svaret;
+          svaret = this.gw.sletTilbud(navn, kode, tilbudID);
+          
+          String returnString = "0";
+        
+        if(svaret==true){
+            returnString = "1";
+        }
+         
+        return returnString;
   }
    
    
@@ -172,7 +177,7 @@ public class GenericResource {
   Tager i mod én string med brugernavn+" "+kodeord+" "+tilbudID+" "+jsonTilbud
   */
   @Path("aendreTilbud")
-  @POST
+  @PUT
   @Produces(MediaType.TEXT_PLAIN)
    public boolean ændreTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
        
@@ -202,12 +207,13 @@ public class GenericResource {
          
          int idInt = Integer.parseInt(id);
 
-         svaret = this.gw.aendreTilbud(bn, ko, idInt, tilbud);
+          svaret = this.gw.aendreTilbud(bn, ko, idInt, tilbud);
          
         return svaret;
   }
      /*
   Tager i mod én string med brugernavn+" "+kodeord
+   BURDE nok være get, men sjit happens 
   */
   @Path("getTilbudKoreskole")
   @POST
@@ -235,6 +241,7 @@ public class GenericResource {
    
       /*
   Tager i mod én string med brugernavn+" "+kodeord
+   ikke brugte lige nu, men skulle bruges i fremtiden
   */
   @Path("getKoreskole")
   @POST
@@ -289,10 +296,10 @@ public class GenericResource {
    
    //KØRESKOLE ELEVER
    
-   @Path("tilbudMedGiventPostnummer")
-  @POST
+   @Path("tilbudMedGiventPostnummer/{postnummer}")
+  @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public String getTilbud(int postnummer) throws RemoteException, NotBoundException, MalformedURLException {
+  public String getTilbud(@PathParam("postnummer") int postnummer) throws RemoteException, NotBoundException, MalformedURLException {
       System.out.println("Kommet ind i getTilbud");
         String svaret = ""; 
          
@@ -303,7 +310,7 @@ public class GenericResource {
             svaret = this.gw.getTilbudFraPostnummer(postnummer);
             System.out.println(svaret);                                                                     
             JsonElement je = jp.parse(svaret);                                                              
-            String færdig = svaret;
+           //  String færdig = svaret;
             System.out.println(svaret);
             
         return svaret;
