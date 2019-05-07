@@ -280,7 +280,7 @@ public class GenericResource {
            JsonElement js2 = jp.parse(arr[2]);
             Koreskole tss = g2.fromJson(js2, Koreskole.class);
            System.out.println(tss.adresse);
-          // svaret = this.gw.opretKøreskole(arr[0], arr[1], tss);
+          svaret = this.gw.opretKøreskole(arr[0], arr[1], tss);
          
         return svaret;
   }
