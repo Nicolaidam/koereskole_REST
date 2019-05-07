@@ -19,10 +19,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -134,25 +136,25 @@ public class GenericResource {
  /*
   Tager i mod én string med brugernavn+" "+kodeord+" "+tilbudID
   */
-  @Path("sletTilbud")
-  @POST
+  @Path("sletTilbud/{id}")
+  @DELETE
   @Produces(MediaType.TEXT_PLAIN)
-   public boolean sletTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
+   public boolean sletTilbud(@PathParam("id") int accountId) throws RemoteException, NotBoundException, MalformedURLException {
      
-       System.out.println("MODTAGET STRING I sletTILBUD : "+string);
+       System.out.println("MODTAGET STRING I sletTILBUD : "+accountId);
         Boolean svaret = false;
         
         KøreskolePriserInterface giv = (KøreskolePriserInterface) Naming.lookup(url);
          this.gw = giv;
        
          JsonParser jp = new JsonParser();
-         JsonElement js = jp.parse(string);
+        // JsonElement js = jp.parse(string);
          
          Gson g = new Gson();
-         System.out.println("STRENGEN VI MODTAGER ER: " + string);
+         //System.out.println("STRENGEN VI MODTAGER ER: " + string);
          
-         String[] arr = g.fromJson(js, String[].class);
-        
+        // String[] arr = g.fromJson(js, String[].class);
+        /*
            System.out.println(arr[0]);
            System.out.println(arr[1]);
            System.out.println(arr[2]);
@@ -161,7 +163,7 @@ public class GenericResource {
            tilbudID[0] = Integer.parseInt(arr[2]);
            
           svaret = this.gw.sletTilbud(arr[0], arr[1], tilbudID);
-         
+         */
         return svaret;
   }
    
