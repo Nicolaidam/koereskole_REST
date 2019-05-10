@@ -221,7 +221,7 @@ public class GenericResource {
   Tager i mod én string med brugernavn+" "+kodeord
    BURDE nok være get, men sjit happens 
   */
-  @Path("getTilbudKoreskole")
+  @Path("tilbudKoreskole")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
    public String getTilbudKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
@@ -249,7 +249,7 @@ public class GenericResource {
   Tager i mod én string med brugernavn+" "+kodeord
    ikke brugte lige nu, men skulle bruges i fremtiden
   */
-  @Path("getKoreskole")
+  @Path("koreskole")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
    public String getKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
@@ -328,7 +328,7 @@ public class GenericResource {
         return svaret;
   }
   
-   @Path("getAlleTilbud")
+   @Path("alleTilbud")
     @GET
      @Produces(MediaType.TEXT_PLAIN)
     public String hentAlleTilbud() throws RemoteException, NotBoundException, MalformedURLException, Exception {
@@ -377,7 +377,7 @@ public class GenericResource {
          System.out.println(færdig);
         return færdig;
 }
-    @Path("getTilbudMellemPrisFraPostnummer")
+    @Path("tilbudMellemPrisFraPostnummer")
     @GET
      @Produces(MediaType.TEXT_PLAIN)
     public String getTilbudMellemPrisFraPostnummer(String string) throws RemoteException, NotBoundException, MalformedURLException {
