@@ -273,7 +273,7 @@ public class GenericResource {
   @Path("opretKøreskole")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
-   public boolean opretKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
+   public String opretKøreskole(String string) throws RemoteException, NotBoundException, MalformedURLException {
        
          System.out.println("INDE I OPRETKS"+string);
         Boolean svaret = false;
@@ -296,8 +296,14 @@ public class GenericResource {
             Koreskole tss = g2.fromJson(js2, Koreskole.class);
            System.out.println(tss.adresse);
           svaret = this.gw.opretKøreskole(arr[0], arr[1], tss);
+          
+           String returnString = "0";
+        
+        if(svaret==true){
+            returnString = "1";
+        }
          
-        return svaret;
+        return returnString;
   }
    
    //KØRESKOLE ELEVER
