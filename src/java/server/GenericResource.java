@@ -179,7 +179,7 @@ public class GenericResource {
   @Path("aendreTilbud")
   @PUT
   @Produces(MediaType.TEXT_PLAIN)
-   public boolean ændreTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
+   public String ændreTilbud(String string) throws RemoteException, NotBoundException, MalformedURLException {
        
        System.out.println("OMG OMG OMG"+string);
         Boolean svaret = false;
@@ -208,8 +208,14 @@ public class GenericResource {
          int idInt = Integer.parseInt(id);
 
           svaret = this.gw.aendreTilbud(bn, ko, idInt, tilbud);
+          
+          String returnString = "0";
+        
+        if(svaret==true){
+            returnString = "1";
+        }
          
-        return svaret;
+        return returnString;
   }
      /*
   Tager i mod én string med brugernavn+" "+kodeord
